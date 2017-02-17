@@ -1,0 +1,1 @@
+/Users/gwongz/.zprezto/runcoms/zlogout
