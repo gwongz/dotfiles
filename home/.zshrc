@@ -20,11 +20,6 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
-## convox autocomplete
-#__convox_switch() { [ -e ~/.convox/rack ] && convox switch || echo unknown; }
-
-#export PS1="${fg[yellow]%}(\$(__convox_switch))"$PS1
-
 # export variables in current directory .envrc
 eval "$(direnv hook zsh)"
 
