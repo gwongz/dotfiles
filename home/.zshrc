@@ -1,48 +1,30 @@
-# source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
- source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" &&
- source "${ZDOTDIR:-$HOME}/.zprezto/z.sh" &&
+# pass autocomplete
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
 fi
 
-autoload colors && colors
+# z jump around https://github.com/rupa/z
+. /opt/homebrew/bin/z/z.sh
 
-# recommended by brew doctor
-export PATH="/usr/local/bin:$PATH"
+# what's running on port 5432
+alias port="lsof -i:5432"
 
-# postgres
-export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin pip install psycopg2
+# nvm
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# aliases
-alias flushdns='sudo killall -HUP mDNSResponder'
-alias myshell='echo $0'
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
-# export variables in current directory .envrc
-eval "$(direnv hook zsh)"
+# local executables
+export PATH="$PATH:/Users/gwongz/.local/bin"
 
-# homeshick
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-
-alias laptop='bash <(curl -s https://raw.githubusercontent.com/gwongz/laptop/master/laptop)'
-
-export PATH="$HOME/.bin:$PATH"
-
-
-export NVM_DIR="/Users/gwong/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-
-source /usr/local/share/chruby/chruby.sh
-
-source /usr/local/share/chruby/auto.sh
-
-chruby ruby-2.4.0
-
-export PATH="$PATH:/usr/local/opt/go/libexec/bin"
-
